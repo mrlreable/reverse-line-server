@@ -7,8 +7,7 @@
 #define SA struct sockaddr
 #pragma comment(lib,"libws2_32.a")//Winsock Library
 
-//build: gcc main.c -o main.exe -lws2_32
-//run: main
+//build: gcc main.c -o main -lws2_32
 
 const char* reverseLine(char line[]){
     char reversedLine[MAX];
@@ -42,19 +41,22 @@ void chat(int sockfd){
         bzero(buff, MAX);
 
         // read the message from client and copy it in buffer
-        read(sockfd, buff, sizeof(buff));
+        //read(sockfd, buff, sizeof(buff)); <-
+        recv(sockfd, buff, sizeof(buff), 0);
         // print buffer which contains the client contents
         printf("From client: %s\t To client : ", buff);
-        bzero(buff, MAX);
+        //bzero(buff, MAX); <-
         n = 0;
         // copy server message in the buffer
-        while ((buff[n++] = getchar()) != '\n')
-            ;
-        // and send that buffer to client
-        //write(sockfd, buff, sizeof(buff));
-        write(sockfd, reverseLine(buff), sizeof(buff));
+        //while ((buff[n++] = getchar()) != '\n');
 
-        // if msg contains "Exit" then server exit and chat ended.
+        // and send that buffer to client
+        //write(sockfd, reverseLine(buff), sizeof(buff));
+
+        send(sockfd, buff, sizeof(buff), 0);
+        //write(sockfd, buff, sizeof(buff));
+
+        // if msg contains "exit" then server exit and chat ended.
         if (strncmp("exit", buff, 4) == 0) {
             printf("Server Exit...\n");
             break;

@@ -7,8 +7,7 @@
 #define SA struct sockaddr
 #pragma comment(lib,"libws2_32.a")//Winsock Library
 
-//build: gcc main.c -o main.exe -lws2_32
-//run: main.c
+//build: gcc client.c -o client -lws2_32
 
 //need to initialize winsock here as well
 void initWinSock(){
@@ -31,11 +30,13 @@ void func(int sockfd)
         n = 0;
         while ((buff[n++] = getchar()) != '\n')
             ;
-        write(sockfd, buff, sizeof(buff));
+        //write(sockfd, buff, sizeof(buff)); <-
+        send(sockfd, buff, sizeof(buff), 0);
         bzero(buff, sizeof(buff));
-        read(sockfd, buff, sizeof(buff));
+        //read(sockfd, buff, sizeof(buff)); <-
+        recv(sockfd, buff, sizeof(buff), 0);
         printf("From Server : %s", buff);
-        if ((strncmp(buff, "exit", 4)) == 0) {
+        if (strncmp(buff, "exit", 4) == 0) {
             printf("Client Exit...\n");
             break;
         }
