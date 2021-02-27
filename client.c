@@ -5,7 +5,10 @@
 #define MAX 1000
 #define PORT 8080
 #define SA struct sockaddr
+#pragma comment(lib,"libws2_32.a")//Winsock Library
 
+//build: gcc main.c -o main.exe -lws2_32
+//run: main.c
 
 void func(int sockfd)
 {
@@ -13,7 +16,7 @@ void func(int sockfd)
     int n;
     for (;;) {
         bzero(buff, sizeof(buff));
-        printf("Enter the string : ");
+        printf("Enter a line: ");
         n = 0;
         while ((buff[n++] = getchar()) != '\n')
             ;
@@ -33,7 +36,7 @@ int main()
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
 
-    // socket create and varification
+    // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
         printf("socket creation failed...\n");
