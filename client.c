@@ -10,6 +10,17 @@
 //build: gcc main.c -o main.exe -lws2_32
 //run: main.c
 
+//need to initialize winsock here as well
+void initWinSock(){
+    WSADATA wsa;
+	if (WSAStartup(MAKEWORD(2,2),&wsa) != 0)
+	{
+		printf("Failed. Error Code : %d",WSAGetLastError());
+
+	}
+
+	printf("Initialized.\n");
+}
 void func(int sockfd)
 {
     char buff[MAX];
@@ -33,6 +44,9 @@ void func(int sockfd)
 
 int main()
 {
+    //initializing winsock
+    initWinSock();
+
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
 

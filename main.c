@@ -31,7 +31,7 @@ void initWinSock(){
 
 	}
 
-	printf("Initialized.");
+	printf("Initialized.\n");
 }
 // Function for chat between server and client
 void chat(int sockfd){
