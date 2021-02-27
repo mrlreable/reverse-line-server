@@ -1,5 +1,13 @@
 # depslib dependency file v1.0
-1614341884 source:c:\users\levente\desktop\reverselineserver\main.c
+1614455934 source:c:\users\levente\desktop\reverselineserver\main.c
 	<stdio.h>
+	<winsock2.h>
 	<stdlib.h>
+	<string.h>
+
+1614353260 source:c:\users\levente\desktop\reverselineserver\client.c
+	<stdio.h>
+	<winsock2.h>
+	<stdlib.h>
+	<string.h>
 
