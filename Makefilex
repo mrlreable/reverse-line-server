@@ -1,18 +1,18 @@
 # -*- MakeFile -*-
 
-all: main client
+all: mainx clientx
 
-main: main.o
-	gcc main.o -o main -l netinet/in.h stdlib.h string.h sys/socket.h sys/types.h
+mainx: mainx.o
+	gcc mainx.o -o mainx -l netinet/in.h stdlib.h string.h sys/socket.h sys/types.h
 
-main.o: main.c
-	gcc -c main.c
+mainx.o: mainx.c
+	gcc -c mainx.c
 
-client: client.o
-	gcc client.o -o client -l netdb.h stdlib.h string.h sys/socket.h
+clientx: clientx.o
+	gcc clientx.o -o clientx -l netdb.h stdlib.h string.h sys/socket.h
 
-client.o: client.c
-	gcc -c client.c
+clientx.o: clientx.c
+	gcc -c clientx.c
 
 clean:
-	rm *.o main client
+	rm *.o mainx clientx
