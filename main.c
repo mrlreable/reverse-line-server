@@ -7,7 +7,7 @@
 #define SA struct sockaddr
 #pragma comment(lib,"libws2_32.a")//Winsock Library
 
-//build: gcc main.c -o main -lws2_32
+//build: gcc main.c -o main -l ws2_32
 
 const char* reverseLine(char line[]){
     char reversedLine[MAX];
