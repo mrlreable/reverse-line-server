@@ -6,22 +6,8 @@
 #define PORT 8080
 #define SA struct sockaddr
 #pragma comment(lib,"libws2_32.a")//Winsock Library
+//makefile: mingw32-make.exe
 
-//build: gcc main.c -o main -l ws2_32
-
-const char* reverseLine(char line[]){
-    char reversedLine[MAX];
-    int count, i = 0;
-    while(line[count] != '\0'){
-        count++;
-    }
-
-    for(i = 0; i < count; i++){
-        reversedLine[i] = line[count - 1 - i];
-    }
-    reversedLine[i] = '\0';
-    return reversedLine;
-}
 void initWinSock(){
     WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2,2),&wsa) != 0)
@@ -29,8 +15,6 @@ void initWinSock(){
 		printf("Failed. Error Code : %d",WSAGetLastError());
 
 	}
-
-	printf("Initialized.\n");
 }
 // Function for chat between server and client
 void chat(int sockfd){
@@ -46,7 +30,7 @@ void chat(int sockfd){
         // print buffer which contains the client contents
         printf("From client: %s\t To client : ", buff);
 
-        // copy server message in the buffer and send that buffer to client
+        // create server message by reversing the string from client (->buff)
         for(i = 0, j = strlen(buff) - 1; i < j; i++, j--){
             temp = buff[i];
             buff[i] = buff[j];
@@ -73,11 +57,11 @@ int main()
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        printf("socket creation failed...\n");
+        printf("Socket creation failed.\n");
         exit(0);
     }
     else
-        printf("Socket successfully created..\n");
+        printf("Socket successfully created.\n");
     bzero(&servaddr, sizeof(servaddr));
 
     // assign IP, PORT
@@ -87,29 +71,29 @@ int main()
 
     // Binding newly created socket to given IP and verification
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("socket bind failed...\n");
+        printf("Socket bind failed.\n");
         exit(0);
     }
     else
-        printf("Socket successfully binded..\n");
+        printf("Socket successfully binded.\n");
 
     // Now server is ready to listen and verification
     if ((listen(sockfd, 5)) != 0) {
-        printf("Listen failed...\n");
+        printf("Listen failed.\n");
         exit(0);
     }
     else
-        printf("Server listening..\n");
+        printf("Server listening.\n");
     len = sizeof(cli);
 
     // Accept the data packet from client and verification
     connfd = accept(sockfd, (SA*)&cli, &len);
     if (connfd < 0) {
-        printf("server accept failed...\n");
+        printf("Server accept failed.\n");
         exit(0);
     }
     else
-        printf("server accepted the client...\n");
+        printf("Server accepted the client.\n");
 
     // Function for chatting between client and server
     chat(connfd);

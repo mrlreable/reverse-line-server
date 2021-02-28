@@ -7,8 +7,6 @@
 #define SA struct sockaddr
 #pragma comment(lib,"libws2_32.a")//Winsock Library
 
-//build: gcc client.c -o client -lws2_32
-
 //need to initialize winsock here as well
 void initWinSock(){
     WSADATA wsa;
@@ -17,8 +15,6 @@ void initWinSock(){
 		printf("Failed. Error Code : %d",WSAGetLastError());
 
 	}
-
-	printf("Initialized.\n");
 }
 void func(int sockfd)
 {
@@ -51,7 +47,7 @@ int main()
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        printf("socket creation failed...\n");
+        printf("Socket creation failed...\n");
         exit(0);
     }
     else
@@ -65,11 +61,11 @@ int main()
 
     // connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
-        printf("connection with the server failed...\n");
+        printf("Connection with the server failed...\n");
         exit(0);
     }
     else
-        printf("connected to the server..\n");
+        printf("Connected to the server..\n");
 
     // function for chat
     func(sockfd);
