@@ -35,26 +35,25 @@ void initWinSock(){
 // Function for chat between server and client
 void chat(int sockfd){
     char buff[MAX];
-    int n;
+    int i, j, temp;
     // infinite loop for chat
-    for (;;) {
+    for (;;){
         bzero(buff, MAX);
 
         // read the message from client and copy it in buffer
-        //read(sockfd, buff, sizeof(buff)); <-
-        recv(sockfd, buff, sizeof(buff), 0);
+        recv(sockfd, buff, sizeof(buff), 0); //on linux -> read(sockfd, buff, sizeof(buff));
+
         // print buffer which contains the client contents
         printf("From client: %s\t To client : ", buff);
-        //bzero(buff, MAX); <-
-        n = 0;
-        // copy server message in the buffer
-        //while ((buff[n++] = getchar()) != '\n');
 
-        // and send that buffer to client
-        //write(sockfd, reverseLine(buff), sizeof(buff));
+        // copy server message in the buffer and send that buffer to client
+        for(i = 0, j = strlen(buff) - 1; i < j; i++, j--){
+            temp = buff[i];
+            buff[i] = buff[j];
+            buff[j] = temp;
+        }
 
-        send(sockfd, buff, sizeof(buff), 0);
-        //write(sockfd, buff, sizeof(buff));
+        send(sockfd, buff, sizeof(buff), 0); //on linux -> write(sockfd, buff, sizeof(buff));
 
         // if msg contains "exit" then server exit and chat ended.
         if (strncmp("exit", buff, 4) == 0) {
@@ -67,12 +66,6 @@ int main()
 {
     //initializing winsock
     initWinSock();
-
-    /*char line[MAX];
-    printf("Enter a line: ");
-    fgets(line, MAX, stdin);
-
-    reverseLine(line);*/
 
     int sockfd, connfd, len;
     struct sockaddr_in servaddr, cli;
@@ -112,11 +105,11 @@ int main()
     // Accept the data packet from client and verification
     connfd = accept(sockfd, (SA*)&cli, &len);
     if (connfd < 0) {
-        printf("server acccept failed...\n");
+        printf("server accept failed...\n");
         exit(0);
     }
     else
-        printf("server acccept the client...\n");
+        printf("server accepted the client...\n");
 
     // Function for chatting between client and server
     chat(connfd);

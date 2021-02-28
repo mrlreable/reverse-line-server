@@ -26,15 +26,12 @@ void func(int sockfd)
     int n;
     for (;;) {
         bzero(buff, sizeof(buff));
-        printf("Enter a line: ");
+        printf("\nEnter a line: ");
         n = 0;
-        while ((buff[n++] = getchar()) != '\n')
-            ;
-        //write(sockfd, buff, sizeof(buff)); <-
-        send(sockfd, buff, sizeof(buff), 0);
+        while ((buff[n++] = getchar()) != '\n');
+        send(sockfd, buff, sizeof(buff), 0); //on linux -> write(sockfd, buff, sizeof(buff))
         bzero(buff, sizeof(buff));
-        //read(sockfd, buff, sizeof(buff)); <-
-        recv(sockfd, buff, sizeof(buff), 0);
+        recv(sockfd, buff, sizeof(buff), 0);//on linux -> read(sockfd, buff, sizeof(buff))
         printf("From Server : %s", buff);
         if (strncmp(buff, "exit", 4) == 0) {
             printf("Client Exit...\n");
